@@ -1,5 +1,5 @@
 {
-  "name": "arag-api",
+  "name": "webshop-api",
   "version": "1.0.0",
   "description": "To start the MySQL and Node app, use docker-compose up.",
   "main": "src/server.ts",
@@ -45,15 +45,5 @@
     "dev": "nodemon -L --verbose",
     "start": "npm run build && node dist/server.js",
     "build": "tsc --build"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/DankGaming/ARAGAPI.git"
-  },
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/DankGaming/ARAGAPI/issues"
-  },
-  "homepage": "https://github.com/DankGaming/ARAGAPI#readme"
+  }
 }
