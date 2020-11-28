@@ -1,0 +1,26 @@
+version: "3.3"
+
+services:
+    db:
+        image: mysql:8.0.21
+        command: "--innodb_use_native_aio=0"
+        ports:
+            - 3307:3306
+        volumes:
+            - ./database/mysql:/var/lib/mysql
+            - ./database/sql:/docker-entrypoint-initdb.d
+        env_file:
+            - .env
+    api:
+        image: bastiaan225/arag-api
+        volumes:
+            - ./:/app
+            - ./node_modules:/app/node_modules
+        env_file:
+            - .env
+        ports:
+            - 3000:3000
+        deploy:
+            replicas: 1
+        depends_on:
+            - db
