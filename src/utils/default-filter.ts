@@ -1,4 +1,3 @@
-import { dir } from "console";
 import { SelectQueryBuilder } from "typeorm";
 import { Filter, OrderDirection } from "./filter";
 

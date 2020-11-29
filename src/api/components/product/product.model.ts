@@ -53,7 +53,7 @@ export class Product {
     @ManyToOne((type) => Category, (category) => category.id)
     category: Category;
 
-    @ManyToMany((type) => Tag, (tag) => tag.id)
+    @ManyToMany((type) => Tag, (tag) => tag.id, { cascade: true })
     @JoinTable()
     tags: Tag[];
 
