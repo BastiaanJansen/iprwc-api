@@ -3,12 +3,16 @@ import {
     Column,
     CreateDateColumn,
     Entity,
+    JoinTable,
+    ManyToMany,
     ManyToOne,
     PrimaryGeneratedColumn,
     UpdateDateColumn,
 } from "typeorm";
-import { ForeignKeyConstraint } from "../../../utils/foreign-key-constraint";
+import { ColumnType } from "../../../utils/column-type";
 import { Brand } from "../brand/brand.model";
+import { Category } from "../category/category.model";
+import { Tag } from "../tag/tag.model";
 
 export enum NutriScore {
     A = "A",
@@ -26,7 +30,10 @@ export class Product {
     @Column()
     name: string;
 
-    @Column("decimal", { precision: 5, scale: 2 })
+    @Column(ColumnType.TEXT)
+    description: string;
+
+    @Column(ColumnType.DECIMAL, { precision: 5, scale: 2 })
     price: number;
 
     @ManyToOne((type) => Brand, (brand) => brand.id, {
@@ -35,10 +42,26 @@ export class Product {
     brand: Brand;
 
     @Column({
-        type: "enum",
+        type: ColumnType.ENUM,
         enum: NutriScore,
     })
     nutriScore: NutriScore;
+
+    @Column()
+    weight: string;
+
+    @ManyToOne((type) => Category, (category) => category.id)
+    category: Category;
+
+    @ManyToMany((type) => Tag, (tag) => tag.id)
+    @JoinTable()
+    tags: Tag[];
+
+    @Column()
+    image: string;
+
+    @Column(ColumnType.DECIMAL, { precision: 13, scale: 0 })
+    barcode: string;
 
     @CreateDateColumn()
     createdAt: Date;

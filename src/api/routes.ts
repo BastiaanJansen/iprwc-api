@@ -1,12 +1,13 @@
 import { Request, Response, Router } from "express";
 import userRoutes from "./components/user/user.routes";
 import authRoutes from "./components/auth/auth.routes";
-import { isAuthenticated } from "./middleware/is-authenticated";
+import productRoutes from "./components/product/product.routes";
 import { NotFoundException } from "../exceptions/NotFoundException";
 
 const router: Router = Router();
 
 router.use("/auth", authRoutes);
+router.use("/products", productRoutes);
 router.use("/employees", userRoutes);
 
 /**
