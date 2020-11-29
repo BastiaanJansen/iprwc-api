@@ -1,4 +1,5 @@
 import { IsEnum, IsIn, IsOptional } from "class-validator";
+import { CommaSeperatedEnum } from "./decorators/comma-seperated.decorator";
 import { DTO } from "./DTO";
 
 export enum OrderDirection {
@@ -13,5 +14,8 @@ export class Filter extends DTO {
     @IsOptional() skip?: number;
     @IsOptional() take?: number;
     @IsOptional() order?: string;
-    @IsOptional() @IsEnum(OrderDirection) orderDirection?: OrderDirection;
+
+    @IsOptional()
+    @CommaSeperatedEnum(OrderDirection)
+    orderDirection?: OrderDirection;
 }

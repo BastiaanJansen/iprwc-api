@@ -1,12 +1,12 @@
 import { NotFoundException } from "../../../exceptions/NotFoundException";
-import { DBResponse } from "../../../utils/db-response";
+import { DBFindAllResponse } from "../../../utils/db-find-all-response";
 import { FilterProductDTO } from "./dto/filter-product.dto";
 import * as productDAO from "./product.dao";
 import { Product } from "./product.model";
 
 export const findAll = async (
     filter: FilterProductDTO
-): Promise<DBResponse<Product[]>> => {
+): Promise<DBFindAllResponse<Product[]>> => {
     const products = await productDAO.findAll(filter);
     return products;
 };

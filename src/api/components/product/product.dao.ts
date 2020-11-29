@@ -1,20 +1,12 @@
-import { ClassType } from "class-transformer/ClassTransformer";
-import {
-    Brackets,
-    createQueryBuilder,
-    getRepository,
-    SelectQueryBuilder,
-} from "typeorm";
-import { DBResponse } from "../../../utils/db-response";
+import { getRepository, SelectQueryBuilder } from "typeorm";
+import { DBFindAllResponse } from "../../../utils/db-find-all-response";
 import { addDefaultFilter } from "../../../utils/default-filter";
-import { Filter } from "../../../utils/filter";
-import { Tag } from "../tag/tag.model";
 import { FilterProductDTO } from "./dto/filter-product.dto";
 import { Product } from "./product.model";
 
 export const findAll = async (
     filter: FilterProductDTO
-): Promise<DBResponse<Product[]>> => {
+): Promise<DBFindAllResponse<Product[]>> => {
     const builder: SelectQueryBuilder<Product> = getRepository(
         Product
     ).createQueryBuilder("product");
@@ -63,4 +55,8 @@ export const findByID = async (id: number): Promise<Product | undefined> => {
     });
 
     return product;
+};
+
+export const remove = async (id: number): Promise<void> => {
+    getRepository(Product).delete(id);
 };

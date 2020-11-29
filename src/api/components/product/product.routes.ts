@@ -1,5 +1,5 @@
 import { Router, Request, Response } from "express";
-import { DBResponse } from "../../../utils/db-response";
+import { DBFindAllResponse } from "../../../utils/db-find-all-response";
 import { Filter } from "../../../utils/filter";
 import { isInt } from "../../../utils/validator/is-int";
 import { parseFilter, parseParam } from "../../../utils/validator/validator";
@@ -15,9 +15,9 @@ router.get(
     async (req: Request, res: Response) => {
         const filter: FilterProductDTO = req.filter;
 
-        const products: DBResponse<Product[]> = await productController.findAll(
-            filter
-        );
+        const products: DBFindAllResponse<
+            Product[]
+        > = await productController.findAll(filter);
 
         res.json(products);
     }
