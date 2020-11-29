@@ -25,7 +25,7 @@ router.get(
     "/:id",
     [parseParam("id", isInt)],
     async (req: Request, res: Response) => {
-        const id = parseInt(req.params.id);
+        const id = +req.params.id;
 
         const tag: Tag = await tagController.findByID(id);
 
@@ -49,7 +49,7 @@ router.patch(
     "/:id",
     [parseParam("id", isInt), parseBody(UpdateTagDTO)],
     async (req: Request, res: Response) => {
-        const id = parseInt(req.params.id);
+        const id = +req.params.id;
         const dto = req.body;
 
         const tag: Tag = await tagController.update(id, dto);
@@ -62,7 +62,7 @@ router.delete(
     "/:id",
     [parseParam("id", isInt)],
     async (req: Request, res: Response) => {
-        const id = parseInt(req.params.id);
+        const id = +req.params.id;
 
         await tagController.remove(id);
 

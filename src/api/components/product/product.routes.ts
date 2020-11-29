@@ -33,7 +33,7 @@ router.get(
     "/:id",
     [parseParam("id", isInt)],
     async (req: Request, res: Response) => {
-        const id = parseInt(req.params.id);
+        const id = +req.params.id;
 
         const product: Product = await productController.findByID(id);
 
@@ -61,7 +61,7 @@ router.patch(
     "/:id",
     [parseParam("id", isInt), parseBody(UpdateProductDTO)],
     async (req: Request, res: Response) => {
-        const id = parseInt(req.params.id);
+        const id = +req.params.id;
         const dto = req.body;
 
         const product: Product = await productController.update(id, dto);
@@ -76,7 +76,7 @@ router.delete(
     "/:id",
     [parseParam("id", isInt)],
     async (req: Request, res: Response) => {
-        const id = parseInt(req.params.id);
+        const id = +req.params.id;
 
         await productController.remove(id);
 
