@@ -11,6 +11,8 @@ import * as shoppingCartItemController from "./shopping-cart-item.controller";
 import { isInt } from "../../../../utils/validator/is-int";
 import { CreateShoppingCartItemDTO } from "./dto/create-shopping-cart-item.dto";
 import { isAdmin } from "../../../middleware/is-admin";
+import { DeleteResult } from "typeorm";
+import { UpdateShoppingCartItemDTO } from "./dto/update-shopping-cart-item.dto";
 
 const router: Router = Router({ mergeParams: true });
 
@@ -52,6 +54,38 @@ router.post(
         res.json({
             result: item,
         });
+    }
+);
+
+router.patch(
+    "/:id",
+    [parseParam("id", isInt), parseBody(UpdateShoppingCartItemDTO)],
+    isAdmin,
+    async (req: Request, res: Response) => {
+        const id = +req.params.id;
+        const dto = req.body;
+
+        const item: ShoppingCartItem = await shoppingCartItemController.update(
+            id,
+            dto
+        );
+
+        res.json(item);
+    }
+);
+
+router.delete(
+    "/:id",
+    [parseParam("id", isInt)],
+    isAdmin,
+    async (req: Request, res: Response) => {
+        const id = +req.params.id;
+
+        const result: DeleteResult = await shoppingCartItemController.remove(
+            id
+        );
+
+        res.json(result);
     }
 );
 

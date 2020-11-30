@@ -1,4 +1,5 @@
 import {
+    DeleteResult,
     EntityManager,
     getManager,
     getRepository,
@@ -55,6 +56,6 @@ export const update = async (
     });
 };
 
-export const remove = async (id: number): Promise<void> => {
-    getRepository(Brand).delete(id);
+export const remove = async (id: number): Promise<DeleteResult> => {
+    return getRepository(Brand).delete(id);
 };

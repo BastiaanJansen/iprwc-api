@@ -1,4 +1,4 @@
-import { getRepository, SelectQueryBuilder } from "typeorm";
+import { DeleteResult, getRepository, SelectQueryBuilder } from "typeorm";
 import { DBFindAllResponse } from "../../../utils/db-find-all-response";
 import { addDefaultFilter } from "../../../utils/default-filter";
 import { Filter } from "../../../utils/filter";
@@ -53,6 +53,6 @@ export const update = async (
     });
 };
 
-export const remove = async (id: number): Promise<void> => {
-    getRepository(Category).delete(id);
+export const remove = async (id: number): Promise<DeleteResult> => {
+    return getRepository(Category).delete(id);
 };

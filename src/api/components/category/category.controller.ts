@@ -5,6 +5,7 @@ import { NotFoundException } from "../../../exceptions/NotFoundException";
 import { Category } from "./category.model";
 import { UpdateCategoryDTO } from "./dto/update-category.dto";
 import { CreateCategoryDTO } from "./dto/create-category.dto";
+import { DeleteResult } from "typeorm";
 
 export const findAll = async (
     filter: Filter
@@ -32,6 +33,6 @@ export const update = async (
     return await categoryDAO.update(id, dto);
 };
 
-export const remove = async (id: number): Promise<void> => {
+export const remove = async (id: number): Promise<DeleteResult> => {
     return await categoryDAO.remove(id);
 };

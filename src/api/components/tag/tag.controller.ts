@@ -5,6 +5,7 @@ import * as tagDAO from "./tag.dao";
 import { NotFoundException } from "../../../exceptions/NotFoundException";
 import { CreateTagDTO } from "./dto/create-tag.dto";
 import { UpdateTagDTO } from "./dto/update-tag.dto";
+import { DeleteResult } from "typeorm";
 
 export const findAll = async (
     filter: Filter
@@ -29,6 +30,6 @@ export const update = async (id: number, dto: UpdateTagDTO): Promise<Tag> => {
     return await tagDAO.update(id, dto);
 };
 
-export const remove = async (id: number): Promise<void> => {
+export const remove = async (id: number): Promise<DeleteResult> => {
     return await tagDAO.remove(id);
 };

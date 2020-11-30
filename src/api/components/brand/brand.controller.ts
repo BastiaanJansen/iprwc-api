@@ -5,6 +5,7 @@ import { NotFoundException } from "../../../exceptions/NotFoundException";
 import { Brand } from "./brand.model";
 import { UpdateBrandDTO } from "./dto/update-brand.dto";
 import { CreateBrandDTO } from "./dto/create-brand.dto";
+import { DeleteResult } from "typeorm";
 
 export const findAll = async (
     filter: Filter
@@ -32,6 +33,6 @@ export const update = async (
     return await brandDAO.update(id, dto);
 };
 
-export const remove = async (id: number): Promise<void> => {
+export const remove = async (id: number): Promise<DeleteResult> => {
     return await brandDAO.remove(id);
 };

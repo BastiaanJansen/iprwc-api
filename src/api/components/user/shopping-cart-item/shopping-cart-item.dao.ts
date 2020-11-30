@@ -1,4 +1,5 @@
 import {
+    DeleteResult,
     EntityManager,
     getManager,
     getRepository,
@@ -11,6 +12,7 @@ import { ShoppingCartItem } from "./shopping-cart-item.model";
 import { CreateShoppingCartItemDTO } from "./dto/create-shopping-cart-item.dto";
 import { Product } from "../../product/product.model";
 import { BadRequestException } from "../../../../exceptions/BadRequestException";
+import { UpdateShoppingCartItemDTO } from "./dto/update-shopping-cart-item.dto";
 
 export const findAll = async (
     filter: Filter
@@ -71,4 +73,18 @@ export const create = async (
 
         return manager.getRepository(ShoppingCartItem).save(item);
     });
+};
+
+export const update = async (
+    id: number,
+    dto: UpdateShoppingCartItemDTO
+): Promise<ShoppingCartItem> => {
+    return getRepository(ShoppingCartItem).save({
+        id,
+        quantity: dto.quantity,
+    });
+};
+
+export const remove = async (id: number): Promise<DeleteResult> => {
+    return getRepository(ShoppingCartItem).delete(id);
 };

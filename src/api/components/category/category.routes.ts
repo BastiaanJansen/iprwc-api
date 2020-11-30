@@ -13,6 +13,7 @@ import { UpdateCategoryDTO } from "./dto/update-category.dto";
 import { CreateCategoryDTO } from "./dto/create-category.dto";
 import { isAuthenticated } from "../../middleware/is-authenticated";
 import { isAdmin } from "../../middleware/is-admin";
+import { DeleteResult } from "typeorm";
 
 const router: Router = Router();
 
@@ -75,9 +76,9 @@ router.delete(
     async (req: Request, res: Response) => {
         const id = +req.params.id;
 
-        await categoryController.remove(id);
+        const result: DeleteResult = await categoryController.remove(id);
 
-        res.status(200).send();
+        res.json(result);
     }
 );
 
