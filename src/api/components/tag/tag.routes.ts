@@ -11,6 +11,8 @@ import * as tagController from "./tag.controller";
 import { isInt } from "../../../utils/validator/is-int";
 import { CreateTagDTO } from "./dto/create-tag.dto";
 import { UpdateTagDTO } from "./dto/update-tag.dto";
+import { isAuthenticated } from "../../middleware/is-authenticated";
+import { isAdmin } from "../../middleware/is-admin";
 const router: Router = Router();
 
 router.get("/", [parseFilter(Filter)], async (req: Request, res: Response) => {
@@ -36,6 +38,8 @@ router.get(
 router.post(
     "/",
     [parseBody(CreateTagDTO)],
+    isAuthenticated,
+    isAdmin,
     async (req: Request, res: Response) => {
         const dto = req.body;
 
@@ -48,6 +52,8 @@ router.post(
 router.patch(
     "/:id",
     [parseParam("id", isInt), parseBody(UpdateTagDTO)],
+    isAuthenticated,
+    isAdmin,
     async (req: Request, res: Response) => {
         const id = +req.params.id;
         const dto = req.body;
@@ -61,6 +67,8 @@ router.patch(
 router.delete(
     "/:id",
     [parseParam("id", isInt)],
+    isAuthenticated,
+    isAdmin,
     async (req: Request, res: Response) => {
         const id = +req.params.id;
 

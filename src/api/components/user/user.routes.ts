@@ -1,6 +1,9 @@
 import { Router, Request, Response } from "express";
 import { isInt } from "../../../utils/validator/is-int";
 import { parseBody, parseParam } from "../../../utils/validator/validator";
+import { isAccountHolder } from "../../middleware/is-account-holder";
+import { isAdmin } from "../../middleware/is-admin";
+import { isAuthenticated } from "../../middleware/is-authenticated";
 import { CreateUserDTO } from "./dto/create-user.dto";
 import { UpdateUserDTO } from "./dto/update-user.dto";
 import * as userController from "./user.controller";
@@ -9,14 +12,19 @@ import { User, Role } from "./user.model";
 
 const router: Router = Router();
 
-router.get("/", async (req: Request, res: Response) => {
-    const users: User[] = await userController.findAll();
+router.get(
+    "/",
+    isAuthenticated,
+    isAdmin,
+    async (req: Request, res: Response) => {
+        const users: User[] = await userController.findAll();
 
-    res.json({
-        success: true,
-        result: users,
-    });
-});
+        res.json({
+            success: true,
+            result: users,
+        });
+    }
+);
 
 router.post(
     "/",
@@ -35,6 +43,8 @@ router.post(
 router.patch(
     "/:id",
     [parseParam("id", isInt), parseBody(UpdateUserDTO)],
+    isAuthenticated,
+    isAccountHolder,
     async (req: Request, res: Response) => {
         const id = +req.params.id;
         const dto = req.body;
