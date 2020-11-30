@@ -11,6 +11,8 @@ import { isInt } from "../../../utils/validator/is-int";
 import { Brand } from "./brand.model";
 import { UpdateBrandDTO } from "./dto/update-brand.dto";
 import { CreateBrandDTO } from "./dto/create-brand.dto";
+import { isAuthenticated } from "../../middleware/is-authenticated";
+import { isAdmin } from "../../middleware/is-admin";
 
 const router: Router = Router();
 
@@ -39,6 +41,8 @@ router.get(
 router.post(
     "/",
     [parseBody(CreateBrandDTO)],
+    isAuthenticated,
+    isAdmin,
     async (req: Request, res: Response) => {
         const dto = req.body;
 
@@ -51,6 +55,8 @@ router.post(
 router.patch(
     "/:id",
     [parseParam("id", isInt), parseBody(UpdateBrandDTO)],
+    isAuthenticated,
+    isAdmin,
     async (req: Request, res: Response) => {
         const id = +req.params.id;
         const dto = req.body;
@@ -64,6 +70,8 @@ router.patch(
 router.delete(
     "/:id",
     [parseParam("id", isInt)],
+    isAuthenticated,
+    isAdmin,
     async (req: Request, res: Response) => {
         const id = +req.params.id;
 

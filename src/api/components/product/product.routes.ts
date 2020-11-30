@@ -7,6 +7,8 @@ import {
     parseFilter,
     parseParam,
 } from "../../../utils/validator/validator";
+import { isAdmin } from "../../middleware/is-admin";
+import { isAuthenticated } from "../../middleware/is-authenticated";
 import { CreateProductDTO } from "./dto/create-product.dto";
 import { FilterProductDTO } from "./dto/filter-product.dto";
 import { UpdateProductDTO } from "./dto/update-product.dto";
@@ -46,6 +48,8 @@ router.get(
 router.post(
     "/",
     [parseBody(CreateProductDTO)],
+    isAuthenticated,
+    isAdmin,
     async (req: Request, res: Response) => {
         const dto = req.body;
 
@@ -60,6 +64,8 @@ router.post(
 router.patch(
     "/:id",
     [parseParam("id", isInt), parseBody(UpdateProductDTO)],
+    isAuthenticated,
+    isAdmin,
     async (req: Request, res: Response) => {
         const id = +req.params.id;
         const dto = req.body;
@@ -75,6 +81,8 @@ router.patch(
 router.delete(
     "/:id",
     [parseParam("id", isInt)],
+    isAuthenticated,
+    isAdmin,
     async (req: Request, res: Response) => {
         const id = +req.params.id;
 

@@ -1,11 +1,19 @@
-import { IsDefined, IsEmail, IsNotEmpty } from "class-validator";
+import {
+    IsDefined,
+    IsEmail,
+    IsNotEmpty,
+    IsOptional,
+    IsString,
+} from "class-validator";
 import { DTO } from "../../../../utils/DTO";
 
 export class CreateUserDTO extends DTO {
     @IsNotEmpty()
+    @IsString()
     firstname: string;
 
     @IsNotEmpty()
+    @IsString()
     lastname: string;
 
     @IsNotEmpty()
@@ -13,5 +21,6 @@ export class CreateUserDTO extends DTO {
     email: string;
 
     @IsNotEmpty()
+    @IsString()
     password: string;
 }

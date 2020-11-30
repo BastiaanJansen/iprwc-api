@@ -11,6 +11,8 @@ import { isInt } from "../../../utils/validator/is-int";
 import { Category } from "./category.model";
 import { UpdateCategoryDTO } from "./dto/update-category.dto";
 import { CreateCategoryDTO } from "./dto/create-category.dto";
+import { isAuthenticated } from "../../middleware/is-authenticated";
+import { isAdmin } from "../../middleware/is-admin";
 
 const router: Router = Router();
 
@@ -39,6 +41,8 @@ router.get(
 router.post(
     "/",
     [parseBody(CreateCategoryDTO)],
+    isAuthenticated,
+    isAdmin,
     async (req: Request, res: Response) => {
         const dto = req.body;
 
@@ -51,6 +55,8 @@ router.post(
 router.patch(
     "/:id",
     [parseParam("id", isInt), parseBody(UpdateCategoryDTO)],
+    isAuthenticated,
+    isAdmin,
     async (req: Request, res: Response) => {
         const id = +req.params.id;
         const dto = req.body;
@@ -64,6 +70,8 @@ router.patch(
 router.delete(
     "/:id",
     [parseParam("id", isInt)],
+    isAuthenticated,
+    isAdmin,
     async (req: Request, res: Response) => {
         const id = +req.params.id;
 

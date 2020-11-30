@@ -3,6 +3,7 @@ import { UnauthorizedException } from "../../exceptions/UnauthorizedException";
 import jsonwebtoken from "jsonwebtoken";
 import * as userDAO from "../components/user/user.dao";
 import { User } from "../components/user/user.model";
+import { BadRequestException } from "../../exceptions/BadRequestException";
 
 /**
  * Added property employee to Express Request object
@@ -31,7 +32,7 @@ export async function isAuthenticated(
     res: Response,
     next: NextFunction
 ) {
-    if (!(await authenticate(req))) {
+    if (!(await authenticate(req, next))) {
         return next(new UnauthorizedException());
     }
 
@@ -42,7 +43,10 @@ export async function isAuthenticated(
  * Check if JWT is present and valid, if so, add the employee object to the request
  * @param req
  */
-export async function authenticate(req: Request): Promise<Boolean> {
+export async function authenticate(
+    req: Request,
+    next: NextFunction
+): Promise<Boolean | undefined> {
     try {
         const privateKey = process.env.JWT_SECRET;
         if (!privateKey) throw new Error("JWT secret must be defined");
@@ -51,23 +55,31 @@ export async function authenticate(req: Request): Promise<Boolean> {
         const token = getTokenFromRequest(req);
 
         // Check if JWT is valid
-        const decodedToken: DecodedToken = jsonwebtoken.verify(
-            token,
-            privateKey
-        ) as DecodedToken;
+        let decodedToken: DecodedToken;
+        try {
+            decodedToken = jsonwebtoken.verify(
+                token,
+                privateKey
+            ) as DecodedToken;
+        } catch (error) {
+            return false;
+        }
 
-        const employeeInToken: Employee = decodedToken.employee;
+        const userInToken: User = decodedToken.user;
 
-        const employee: Employee = await employeeDAO.findByID(
-            employeeInToken.id
-        );
+        const user = await userDAO.findByID(userInToken.id);
+
+        if (!user)
+            throw new BadRequestException(
+                `Authentication failed. User with id ${userInToken.id} does not exist`
+            );
 
         // Add employee to request object
-        req.employee = employee;
+        req.user = user;
 
         return true;
     } catch (error) {
-        return false;
+        next(error);
     }
 }
 
@@ -82,7 +94,7 @@ export async function mayBeAuthenticated(
     res: Response,
     next: NextFunction
 ) {
-    await authenticate(req);
+    await authenticate(req, next);
     next();
 }
 

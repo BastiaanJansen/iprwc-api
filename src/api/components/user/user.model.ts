@@ -6,6 +6,7 @@ import {
     Entity,
     OneToMany,
     PrimaryGeneratedColumn,
+    Unique,
     UpdateDateColumn,
 } from "typeorm";
 import { ForeignKeyConstraint } from "../../../utils/foreign-key-constraint";
@@ -27,7 +28,7 @@ export class User {
     @Column()
     lastname: string;
 
-    @Column()
+    @Column({ unique: true })
     email: string;
 
     @Column({ select: false })
@@ -42,6 +43,11 @@ export class User {
         }
     )
     shoppingCartItems: ShoppingCartItem[];
+
+    @Column({
+        default: false,
+    })
+    admin: boolean;
 
     @CreateDateColumn()
     createdAt: string;

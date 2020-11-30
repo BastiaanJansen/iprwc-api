@@ -8,24 +8,24 @@ import { HTTPStatus } from "../../../utils/http-status-codes";
 import { UnauthorizedException } from "../../../exceptions/UnauthorizedException";
 import { User } from "../user/user.model";
 
-// export const login = async (loginDTO: LoginDTO): Promise<LoginInfo> => {
-//     const { email, password } = loginDTO;
-//     const employee: User = await userDAO.findByEmailWithPassword(email);
+export const login = async (loginDTO: LoginDTO): Promise<LoginInfo> => {
+    const { email, password } = loginDTO;
+    const user = await userDAO.findByEmail(email, true);
 
-//     if (!employee) throw new UnauthorizedException("Login info incorrect");
+    if (!user) throw new UnauthorizedException("Login info incorrect");
 
-//     const passwordIsCorrect: boolean = await employee.checkPassword(password);
-//     delete employee.password;
+    const passwordIsCorrect: boolean = await user.checkPassword(password);
+    delete user.password;
 
-//     if (!passwordIsCorrect)
-//         throw new UnauthorizedException("Login info incorrect");
+    if (!passwordIsCorrect)
+        throw new UnauthorizedException("Login info incorrect");
 
-//     const privateKey = process.env.JWT_SECRET;
-//     if (!privateKey) throw new Error("JWT secret must be defined");
-//     const JWT = jsonwebtoken.sign({ employee }, privateKey);
+    const privateKey = process.env.JWT_SECRET;
+    if (!privateKey) throw new Error("JWT secret must be defined");
+    const JWT = jsonwebtoken.sign({ user }, privateKey);
 
-//     return {
-//         employee,
-//         JWT,
-//     };
-// };
+    return {
+        user,
+        JWT,
+    };
+};

@@ -6,19 +6,18 @@ import { parseBody } from "../../../utils/validator/validator";
 
 const router: Router = Router();
 
-// router.post(
-//     "/login",
-//     [parseBody(LoginDTO)],
-//     async (req: Request, res: Response) => {
-//         const loginDTO = req.body;
+router.post(
+    "/login",
+    [parseBody(LoginDTO)],
+    async (req: Request, res: Response) => {
+        const loginDTO = req.body;
 
-//         const loginInfo: LoginInfo = await authController.login(loginDTO);
+        const loginInfo: LoginInfo = await authController.login(loginDTO);
 
-//         res.json({
-//             success: true,
-//             result: loginInfo,
-//         });
-//     }
-// );
+        res.json({
+            result: loginInfo,
+        });
+    }
+);
 
 export default router;
