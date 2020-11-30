@@ -10,7 +10,7 @@ import {
     UpdateDateColumn,
 } from "typeorm";
 import { ForeignKeyConstraint } from "../../../utils/foreign-key-constraint";
-import { ShoppingCartItem } from "../shopping-cart-item/shopping-cart-item.model";
+import { ShoppingCartItem } from "./shopping-cart-item/shopping-cart-item.model";
 
 export enum Role {
     ADMIN = "ADMIN",

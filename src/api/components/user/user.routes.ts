@@ -7,8 +7,8 @@ import { isAuthenticated } from "../../middleware/is-authenticated";
 import { CreateUserDTO } from "./dto/create-user.dto";
 import { UpdateUserDTO } from "./dto/update-user.dto";
 import * as userController from "./user.controller";
-import { User, Role } from "./user.model";
-// import { hasRole } from "../../middleware/has-role";
+import { User } from "./user.model";
+import shoppingCartItemRoutes from "./shopping-cart-item/shopping-cart-item.routes";
 
 const router: Router = Router();
 
@@ -55,6 +55,14 @@ router.patch(
             result: user,
         });
     }
+);
+
+router.use(
+    "/:id/cart",
+    [parseParam("id", isInt)],
+    isAuthenticated,
+    isAccountHolder,
+    shoppingCartItemRoutes
 );
 
 export default router;

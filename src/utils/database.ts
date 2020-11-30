@@ -5,7 +5,7 @@ import { Brand } from "../api/components/brand/brand.model";
 import { Category } from "../api/components/category/category.model";
 import { Tag } from "../api/components/tag/tag.model";
 import { Product } from "../api/components/product/product.model";
-import { ShoppingCartItem } from "../api/components/shopping-cart-item/shopping-cart-item.model";
+import { ShoppingCartItem } from "../api/components/user/shopping-cart-item/shopping-cart-item.model";
 import { User } from "../api/components/user/user.model";
 
 createConnection({
