@@ -3,6 +3,8 @@ import userRoutes from "./components/user/user.routes";
 import authRoutes from "./components/auth/auth.routes";
 import productRoutes from "./components/product/product.routes";
 import tagRoutes from "./components/tag/tag.routes";
+import brandRoutes from "./components/brand/brand.routes";
+import categoryRoutes from "./components/category/category.routes";
 import { NotFoundException } from "../exceptions/NotFoundException";
 
 const router: Router = Router();
@@ -10,6 +12,8 @@ const router: Router = Router();
 router.use("/auth", authRoutes);
 router.use("/products", productRoutes);
 router.use("/tags", tagRoutes);
+router.use("/brands", brandRoutes);
+router.use("/categories", categoryRoutes);
 router.use("/users", userRoutes);
 
 /**

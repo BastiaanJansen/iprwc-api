@@ -53,6 +53,16 @@ export const findAll = async (
         builder.andWhere("tags.id IN (:...tags)", { tags });
     }
 
+    if (filter.priceLowerBound)
+        builder.andWhere("product.price >= :price", {
+            price: filter.priceLowerBound,
+        });
+
+    if (filter.priceHigherBound)
+        builder.andWhere("product.price <= :price", {
+            price: filter.priceHigherBound,
+        });
+
     const products = await builder.getManyAndCount();
 
     return {

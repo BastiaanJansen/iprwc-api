@@ -8,4 +8,6 @@ export class FilterProductDTO extends Filter {
     @IsOptional() category?: number;
     @IsOptional() brand?: number;
     @IsOptional() tags?: string;
+    @IsOptional() priceLowerBound?: number;
+    @IsOptional() priceHigherBound?: number;
 }

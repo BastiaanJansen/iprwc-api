@@ -18,6 +18,8 @@ export const findAll = async (
         Tag
     ).createQueryBuilder("tag");
 
+    builder.loadRelationCountAndMap("tag.productCount", "tag.products");
+
     addDefaultFilter(builder, filter);
 
     const tags = await builder.getManyAndCount();
@@ -29,7 +31,11 @@ export const findAll = async (
 };
 
 export const findByID = async (id: number): Promise<Tag | undefined> => {
-    return getRepository(Tag).findOne(id);
+    return getRepository(Tag)
+        .createQueryBuilder("tag")
+        .loadRelationCountAndMap("tag.productCount", "tag.products")
+        .where("id = :id", { id })
+        .getOne();
 };
 
 export const create = async (dto: CreateTagDTO): Promise<Tag> => {
