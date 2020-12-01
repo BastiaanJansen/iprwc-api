@@ -3,10 +3,7 @@ import * as userDAO from "../user/user.dao";
 import { LoginDTO } from "./dto/login.dto";
 import { LoginInfo } from "./login-info.model";
 import jsonwebtoken from "jsonwebtoken";
-import { Exception } from "../../../exceptions/Exception";
-import { HTTPStatus } from "../../../utils/http-status-codes";
 import { UnauthorizedException } from "../../../exceptions/UnauthorizedException";
-import { User } from "../user/user.model";
 
 export const login = async (loginDTO: LoginDTO): Promise<LoginInfo> => {
     const { email, password } = loginDTO;
