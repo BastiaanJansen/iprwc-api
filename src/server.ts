@@ -1,5 +1,6 @@
 require("dotenv").config();
 import express, { Application } from "express";
+import cors from "cors";
 import errorHandler from "./utils/error-handler";
 import bodyParser from "body-parser";
 import routes from "./api/routes";
@@ -8,8 +9,9 @@ import "./utils/database";
 import "./utils/response-handler";
 
 const app: Application = express();
-const port: number = parseInt(`${process.env.PORT}`, 10) || 5000;
+const port: number = +(process.env.PORT || 5000);
 
+app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
