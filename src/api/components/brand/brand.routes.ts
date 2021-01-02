@@ -76,9 +76,9 @@ router.delete(
     async (req: Request, res: Response) => {
         const id = +req.params.id;
 
-        const result: DeleteResult = await brandController.remove(id);
+        await brandController.remove(id);
 
-        res.json(result);
+        res.json({ success: true });
     }
 );
 

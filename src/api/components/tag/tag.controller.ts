@@ -30,6 +30,6 @@ export const update = async (id: number, dto: UpdateTagDTO): Promise<Tag> => {
     return await tagDAO.update(id, dto);
 };
 
-export const remove = async (id: number): Promise<DeleteResult> => {
-    return await tagDAO.remove(id);
+export const remove = async (id: number): Promise<void> => {
+    await tagDAO.remove(id);
 };

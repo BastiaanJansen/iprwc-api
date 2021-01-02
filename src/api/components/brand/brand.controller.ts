@@ -33,6 +33,6 @@ export const update = async (
     return await brandDAO.update(id, dto);
 };
 
-export const remove = async (id: number): Promise<DeleteResult> => {
-    return await brandDAO.remove(id);
+export const remove = async (id: number): Promise<void> => {
+    await brandDAO.remove(id);
 };

@@ -73,9 +73,9 @@ router.delete(
     async (req: Request, res: Response) => {
         const id = +req.params.id;
 
-        const result: DeleteResult = await tagController.remove(id);
+        await tagController.remove(id);
 
-        res.json(result);
+        res.json({ success: true });
     }
 );
 

@@ -88,7 +88,7 @@ router.delete(
 
         await productController.remove(id);
 
-        res.status(200).send();
+        res.json({ success: true });
     }
 );
 

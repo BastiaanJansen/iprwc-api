@@ -33,5 +33,5 @@ export const update = async (
 };
 
 export const remove = async (id: number): Promise<void> => {
-    return await productDAO.remove(id);
+    await productDAO.remove(id);
 };
