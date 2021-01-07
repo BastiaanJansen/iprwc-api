@@ -10,9 +10,8 @@ import {
     PrimaryGeneratedColumn,
     UpdateDateColumn,
 } from "typeorm";
-import { ForeignKeyConstraint } from "../../../../utils/foreign-key-constraint";
-import { Product } from "../../product/product.model";
-import { User } from "../user.model";
+import { Product } from "../product/product.model";
+import { User } from "../user/user.model";
 
 @Entity()
 export class Order {
@@ -22,10 +21,7 @@ export class Order {
     @ManyToOne((type) => User, (user) => user.orders)
     user: User;
 
-    @ManyToMany((type) => Product, (product) => product.id, {
-        onUpdate: ForeignKeyConstraint.CASCADE,
-        onDelete: ForeignKeyConstraint.NO_ACTION,
-    })
+    @ManyToMany((type) => Product, (product) => product.orders, { cascade: true })
     @JoinTable()
     products: Product[];
 

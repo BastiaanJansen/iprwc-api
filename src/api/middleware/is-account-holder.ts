@@ -12,7 +12,7 @@ export const isAccountHolder = async (
 
     if (!user) next(new UnauthorizedException());
 
-    if (user.id !== +req.params.id)
+    if (user.id !== +req.params.userID)
         next(new ForbiddenException(`You are not account holder`));
 
     next();

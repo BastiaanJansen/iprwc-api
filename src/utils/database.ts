@@ -6,7 +6,7 @@ import { Category } from "../api/components/category/category.model";
 import { Tag } from "../api/components/tag/tag.model";
 import { Product } from "../api/components/product/product.model";
 import { User } from "../api/components/user/user.model";
-import { Order } from "../api/components/user/order/order.model";
+import { Order } from "../api/components/order/order.model";
 
 createConnection({
     type: "mysql",

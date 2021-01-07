@@ -41,8 +41,8 @@ router.post(
 );
 
 router.patch(
-    "/:id",
-    [parseParam("id", isInt), parseBody(UpdateUserDTO)],
+    "/:userID",
+    [parseParam("userID", isInt), parseBody(UpdateUserDTO)],
     isAuthenticated,
     isAccountHolder,
     async (req: Request, res: Response) => {

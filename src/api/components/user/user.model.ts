@@ -8,7 +8,7 @@ import {
     UpdateDateColumn,
 } from "typeorm";
 import { ForeignKeyConstraint } from "../../../utils/foreign-key-constraint";
-import { Order } from "./order/order.model";
+import { Order } from "../order/order.model";
 
 export enum Role {
     ADMIN = "ADMIN",

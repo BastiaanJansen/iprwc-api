@@ -11,6 +11,7 @@ import {
 import { ColumnType } from "../../../utils/column-type";
 import { Brand } from "../brand/brand.model";
 import { Category } from "../category/category.model";
+import { Order } from "../order/order.model";
 import { Tag } from "../tag/tag.model";
 
 export enum NutriScore {
@@ -55,6 +56,9 @@ export class Product {
     @ManyToMany((type) => Tag, (tag) => tag.products, { cascade: true })
     @JoinTable()
     tags: Tag[];
+
+    @ManyToMany((type) => Order, (order) => order.products)
+    orders: Order[];
 
     @Column()
     image: string;
