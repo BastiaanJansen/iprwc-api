@@ -1,16 +1,14 @@
 import bcrypt from "bcrypt";
-import { isNotEmpty } from "class-validator";
 import {
     Column,
     CreateDateColumn,
     Entity,
     OneToMany,
     PrimaryGeneratedColumn,
-    Unique,
     UpdateDateColumn,
 } from "typeorm";
 import { ForeignKeyConstraint } from "../../../utils/foreign-key-constraint";
-import { ShoppingCartItem } from "./shopping-cart-item/shopping-cart-item.model";
+import { Order } from "./order/order.model";
 
 export enum Role {
     ADMIN = "ADMIN",
@@ -34,20 +32,18 @@ export class User {
     @Column({ select: false })
     password?: string;
 
-    @OneToMany(
-        (type) => ShoppingCartItem,
-        (shoppingCartItem) => shoppingCartItem.user,
+    @Column({
+        default: false,
+    })
+    admin: boolean;
+
+    @OneToMany((type) => Order, (order) => order.user, 
         {
             onUpdate: ForeignKeyConstraint.CASCADE,
             onDelete: ForeignKeyConstraint.NO_ACTION,
         }
     )
-    shoppingCartItems: ShoppingCartItem[];
-
-    @Column({
-        default: false,
-    })
-    admin: boolean;
+    orders: Order[];
 
     @CreateDateColumn()
     createdAt: string;

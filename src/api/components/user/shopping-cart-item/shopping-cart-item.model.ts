@@ -13,24 +13,24 @@ import { ColumnType } from "../../../../utils/column-type";
 import { Product } from "../../product/product.model";
 import { User } from "../user.model";
 
-@Entity()
-export class ShoppingCartItem {
-    @PrimaryGeneratedColumn()
-    id: number;
+// @Entity()
+// export class ShoppingCartItem {
+//     @PrimaryGeneratedColumn()
+//     id: number;
 
-    @ManyToOne((type) => User, (user) => user.shoppingCartItems)
-    user: User;
+//     @ManyToOne((type) => User, (user) => user.shoppingCartItems)
+//     user: User;
 
-    @ManyToOne((type) => Product, (product) => product.shoppingCartItems)
-    product: Product;
+//     @ManyToOne((type) => Product, (product) => product.shoppingCartItems)
+//     product: Product;
 
-    @Column(ColumnType.INT)
-    quantity: number;
+//     @Column(ColumnType.INT)
+//     quantity: number;
 
-    @CreateDateColumn()
-    createdAt: Date;
+//     @CreateDateColumn()
+//     createdAt: Date;
 
-    @UpdateDateColumn()
-    updatedAt: Date;
-    item: Promise<Product | undefined>;
-}
+//     @UpdateDateColumn()
+//     updatedAt: Date;
+//     item: Promise<Product | undefined>;
+// }

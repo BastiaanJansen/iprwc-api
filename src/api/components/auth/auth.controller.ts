@@ -4,6 +4,9 @@ import { LoginDTO } from "./dto/login.dto";
 import { LoginInfo } from "./login-info.model";
 import jsonwebtoken from "jsonwebtoken";
 import { UnauthorizedException } from "../../../exceptions/UnauthorizedException";
+import { RegisterDTO } from "./dto/register.dto";
+import { User } from "../user/user.model";
+import { BadRequestException } from "../../../exceptions/BadRequestException";
 
 export const login = async (loginDTO: LoginDTO): Promise<LoginInfo> => {
     const { email, password } = loginDTO;
@@ -26,3 +29,13 @@ export const login = async (loginDTO: LoginDTO): Promise<LoginInfo> => {
         jwt,
     };
 };
+
+export const register = async (dto: RegisterDTO): Promise<User> => {
+    const { firstname, lastname, email, password } = dto;
+    
+    const user = await userDAO.findByEmail(email);
+
+    if (user) throw new BadRequestException("Email is already used");
+
+    return await userDAO.create(dto);
+}

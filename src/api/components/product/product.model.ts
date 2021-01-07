@@ -1,20 +1,16 @@
 import {
-    Check,
     Column,
     CreateDateColumn,
     Entity,
     JoinTable,
     ManyToMany,
     ManyToOne,
-    OneToMany,
     PrimaryGeneratedColumn,
     UpdateDateColumn,
 } from "typeorm";
 import { ColumnType } from "../../../utils/column-type";
-import { ForeignKeyConstraint } from "../../../utils/foreign-key-constraint";
 import { Brand } from "../brand/brand.model";
 import { Category } from "../category/category.model";
-import { ShoppingCartItem } from "../user/shopping-cart-item/shopping-cart-item.model";
 import { Tag } from "../tag/tag.model";
 
 export enum NutriScore {
@@ -65,16 +61,6 @@ export class Product {
 
     @Column(ColumnType.DECIMAL, { precision: 13, scale: 0 })
     barcode: string;
-
-    @OneToMany(
-        (type) => ShoppingCartItem,
-        (shoppingCartItem) => shoppingCartItem.product,
-        {
-            onUpdate: ForeignKeyConstraint.CASCADE,
-            onDelete: ForeignKeyConstraint.NO_ACTION,
-        }
-    )
-    shoppingCartItems: ShoppingCartItem[];
 
     @CreateDateColumn()
     createdAt: Date;
