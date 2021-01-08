@@ -3,6 +3,7 @@ import {
     CreateDateColumn,
     Entity,
     getRepository,
+    JoinColumn,
     JoinTable,
     ManyToMany,
     ManyToOne,
@@ -10,8 +11,10 @@ import {
     PrimaryGeneratedColumn,
     UpdateDateColumn,
 } from "typeorm";
+import { ForeignKeyConstraint } from "../../../utils/foreign-key-constraint";
 import { Product } from "../product/product.model";
 import { User } from "../user/user.model";
+import { OrderItem } from "./order-item/order-item.model";
 
 @Entity()
 export class Order {
@@ -21,9 +24,12 @@ export class Order {
     @ManyToOne((type) => User, (user) => user.orders)
     user: User;
 
-    @ManyToMany((type) => Product, (product) => product.orders, { cascade: true })
-    @JoinTable()
-    products: Product[];
+    @OneToMany((type) => OrderItem, (orderItem) => orderItem.order, {
+        cascade: true,
+        onDelete: ForeignKeyConstraint.CASCADE,
+        onUpdate: ForeignKeyConstraint.CASCADE,
+    })
+    items: OrderItem[];
 
     @CreateDateColumn()
     createdAt: Date;

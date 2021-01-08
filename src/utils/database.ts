@@ -7,6 +7,7 @@ import { Tag } from "../api/components/tag/tag.model";
 import { Product } from "../api/components/product/product.model";
 import { User } from "../api/components/user/user.model";
 import { Order } from "../api/components/order/order.model";
+import { OrderItem } from "../api/components/order/order-item/order-item.model";
 
 createConnection({
     type: "mysql",
@@ -15,7 +16,7 @@ createConnection({
     username: process.env.MYSQL_USER,
     password: process.env.MYSQL_PASSWORD,
     database: process.env.MYSQL_DATABASE,
-    entities: [User, Product, Brand, Category, Tag, Order],
+    entities: [User, Product, Brand, Category, Tag, Order, OrderItem],
     namingStrategy: new SnakeNamingStrategy(),
     synchronize: true,
     logging: false,

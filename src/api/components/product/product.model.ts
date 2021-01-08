@@ -57,9 +57,6 @@ export class Product {
     @JoinTable()
     tags: Tag[];
 
-    @ManyToMany((type) => Order, (order) => order.products)
-    orders: Order[];
-
     @Column()
     image: string;
 
