@@ -1,4 +1,9 @@
-import { DeleteResult, getRepository, Repository, SelectQueryBuilder } from "typeorm";
+import {
+    DeleteResult,
+    getRepository,
+    Repository,
+    SelectQueryBuilder,
+} from "typeorm";
 import { BadRequestException } from "../../../exceptions/BadRequestException";
 import { DBFindAllResponse } from "../../../utils/db-find-all-response";
 import { addDefaultFilter } from "../../../utils/default-filter";
@@ -10,15 +15,22 @@ import { UpdateOrderDTO } from "./dto/update-order.dto";
 import { OrderItem } from "./order-item/order-item.model";
 import { Order } from "./order.model";
 
-export const findAll = async (filter: FilterOrderDTO): Promise<DBFindAllResponse<Order[]>> => {
-    const builder: SelectQueryBuilder<Order> = getRepository(Order).createQueryBuilder("order");
+export const findAll = async (
+    filter: FilterOrderDTO
+): Promise<DBFindAllResponse<Order[]>> => {
+    const builder: SelectQueryBuilder<Order> = getRepository(
+        Order
+    ).createQueryBuilder("order");
 
-    builder.innerJoinAndSelect("order.items", "items").innerJoinAndSelect("items.product", "product");
+    builder
+        .innerJoinAndSelect("order.user", "user")
+        .innerJoinAndSelect("order.items", "items")
+        .innerJoinAndSelect("items.product", "product");
 
     addDefaultFilter(builder, filter);
 
     if (filter.user)
-        builder.andWhere("order.user = :user", { user: filter.user })
+        builder.andWhere("order.user = :user", { user: filter.user });
 
     const orders = await builder.getManyAndCount();
 
@@ -26,19 +38,22 @@ export const findAll = async (filter: FilterOrderDTO): Promise<DBFindAllResponse
         result: orders[0],
         count: orders[1],
     };
-}
+};
 
 export const findByID = async (id: number): Promise<Order | undefined> => {
-    return getRepository(Order).findOne(id);
-}
+    return getRepository(Order).findOne(id, { relations: ["items"] });
+};
 
 export const findByUserID = async (userID: number): Promise<Order[]> => {
     return getRepository(Order).find({
-        user: <any>userID
-    })
-}
+        user: <any>userID,
+    });
+};
 
-export const create = async (userID: number, dto: CreateOrderDTO): Promise<Order> => {
+export const create = async (
+    userID: number,
+    dto: CreateOrderDTO
+): Promise<Order> => {
     const productRepository: Repository<Product> = getRepository(Product);
     const user = await getRepository(User).findOne(userID);
 
@@ -48,7 +63,10 @@ export const create = async (userID: number, dto: CreateOrderDTO): Promise<Order
 
     for (const itemDTO of dto.productItems) {
         const product = await productRepository.findOne(itemDTO.product);
-        if (!product) throw new BadRequestException(`Product ${itemDTO.product} does not exist`);
+        if (!product)
+            throw new BadRequestException(
+                `Product ${itemDTO.product} does not exist`
+            );
         const item = new OrderItem();
         item.quantity = itemDTO.quantity;
         item.product = product;
@@ -62,15 +80,33 @@ export const create = async (userID: number, dto: CreateOrderDTO): Promise<Order
     return getRepository(Order).save(order);
 };
 
-export const update = async (id: number, dto: UpdateOrderDTO): Promise<Order> => {
-    const products: Product[] = await getRepository(Product).findByIds(dto.productID);
+export const update = async (
+    id: number,
+    dto: UpdateOrderDTO
+): Promise<Order> => {
+    const products: Product[] = await getRepository(Product).findByIds(
+        dto.productID
+    );
 
     return getRepository(Order).save({
         id,
-        products
-    })
-}
+        products,
+    });
+};
 
 export const remove = async (id: number): Promise<void> => {
     getRepository(Order).delete(id);
-}
+};
+
+export const userIsOrderHolder = async (
+    userID: number,
+    orderID: number
+): Promise<boolean> => {
+    const order = await getRepository(Order).findOne(orderID, {
+        where: {
+            user: userID,
+        },
+    });
+
+    return !!order;
+};

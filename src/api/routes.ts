@@ -5,7 +5,9 @@ import productRoutes from "./components/product/product.routes";
 import tagRoutes from "./components/tag/tag.routes";
 import brandRoutes from "./components/brand/brand.routes";
 import categoryRoutes from "./components/category/category.routes";
+import orderRoutes from "./components/order/order.routes";
 import { NotFoundException } from "../exceptions/NotFoundException";
+import { isAuthenticated } from "./middleware/is-authenticated";
 
 const router: Router = Router();
 
@@ -15,6 +17,7 @@ router.use("/tags", tagRoutes);
 router.use("/brands", brandRoutes);
 router.use("/categories", categoryRoutes);
 router.use("/users", userRoutes);
+router.use("/orders", isAuthenticated, orderRoutes);
 
 /**
  * Default root endpoint

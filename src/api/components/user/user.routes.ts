@@ -26,6 +26,20 @@ router.get(
     }
 );
 
+router.get(
+    "/:userID",
+    [parseParam("userID", isInt)],
+    isAuthenticated,
+    isAccountHolder,
+    async (req: Request, res: Response) => {
+        const userID = +req.params.userID;
+
+        const user: User = await userController.findByID(userID);
+
+        res.json(user);
+    }
+);
+
 router.post(
     "/",
     [parseBody(CreateUserDTO)],
@@ -34,9 +48,7 @@ router.post(
 
         const user: User = await userController.create(dto);
 
-        res.json({
-            result: user,
-        });
+        res.json(user);
     }
 );
 
@@ -46,17 +58,35 @@ router.patch(
     isAuthenticated,
     isAccountHolder,
     async (req: Request, res: Response) => {
-        const id = +req.params.id;
+        const userID = +req.params.userID;
         const dto = req.body;
 
-        const user: User = await userController.update(id, dto);
+        const user: User = await userController.update(userID, dto);
 
-        res.json({
-            result: user,
-        });
+        res.json(user);
     }
 );
 
-router.use("/:userID/orders", parseParam("userID", isInt), isAuthenticated, isAccountHolder, orderRoutes);
+router.delete(
+    "/:userID",
+    [parseParam("userID", isInt)],
+    isAuthenticated,
+    isAccountHolder,
+    async (req: Request, res: Response) => {
+        const userID = +req.params.userID;
+
+        await userController.remove(userID);
+
+        res.json({ success: true });
+    }
+);
+
+router.use(
+    "/:userID/orders",
+    parseParam("userID", isInt),
+    isAuthenticated,
+    isAccountHolder,
+    orderRoutes
+);
 
 export default router;
