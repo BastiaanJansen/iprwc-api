@@ -43,6 +43,7 @@ router.get(
 router.post(
     "/",
     [parseBody(CreateUserDTO)],
+    isAdmin,
     async (req: Request, res: Response) => {
         const dto = req.body;
 
