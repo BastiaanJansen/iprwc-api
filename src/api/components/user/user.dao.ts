@@ -69,3 +69,7 @@ export const update = async (id: number, dto: UpdateUserDTO): Promise<User> => {
         return user!;
     });
 };
+
+export const remove = async (id: number): Promise<void> => {
+    getRepository(User).delete(id);
+};

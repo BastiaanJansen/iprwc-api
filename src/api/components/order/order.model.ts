@@ -26,8 +26,6 @@ export class Order {
 
     @OneToMany((type) => OrderItem, (orderItem) => orderItem.order, {
         cascade: true,
-        onDelete: ForeignKeyConstraint.CASCADE,
-        onUpdate: ForeignKeyConstraint.CASCADE,
     })
     items: OrderItem[];
 
