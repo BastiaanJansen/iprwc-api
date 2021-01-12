@@ -9,6 +9,7 @@ import { UpdateUserDTO } from "./dto/update-user.dto";
 import * as userController from "./user.controller";
 import orderRoutes from "./order/order.routes";
 import { User } from "./user.model";
+import { DBFindAllResponse } from "../../../utils/db-find-all-response";
 
 const router: Router = Router();
 
@@ -17,12 +18,9 @@ router.get(
     isAuthenticated,
     isAdmin,
     async (req: Request, res: Response) => {
-        const users: User[] = await userController.findAll();
+        const users: DBFindAllResponse<User[]> = await userController.findAll();
 
-        res.json({
-            success: true,
-            result: users,
-        });
+        res.json(users);
     }
 );
 
@@ -34,9 +32,7 @@ router.post(
 
         const user: User = await userController.create(dto);
 
-        res.json({
-            result: user,
-        });
+        res.json(user);
     }
 );
 
@@ -46,14 +42,12 @@ router.patch(
     isAuthenticated,
     isAccountHolder,
     async (req: Request, res: Response) => {
-        const id = +req.params.id;
+        const id = +req.params.userID;
         const dto = req.body;
 
         const user: User = await userController.update(id, dto);
 
-        res.json({
-            result: user,
-        });
+        res.json(user);
     }
 );
 

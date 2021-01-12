@@ -13,8 +13,4 @@ export class UpdateUserDTO extends DTO {
     @IsOptional()
     @IsEmail()
     email?: string;
-
-    @IsOptional()
-    @IsString()
-    password?: string;
 }

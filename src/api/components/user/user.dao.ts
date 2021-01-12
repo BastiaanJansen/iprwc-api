@@ -9,9 +9,17 @@ import { CreateUserDTO } from "./dto/create-user.dto";
 import bcrypt from "bcrypt";
 import { User } from "./user.model";
 import { UpdateUserDTO } from "./dto/update-user.dto";
+import { DBFindAllResponse } from "../../../utils/db-find-all-response";
 
-export const findAll = async (): Promise<User[]> => {
-    return await getRepository(User).find();
+export const findAll = async (): Promise<DBFindAllResponse<User[]>> => {
+    const builder: SelectQueryBuilder<User> = getRepository(User).createQueryBuilder("user");
+
+    const users = await builder.getManyAndCount();
+    
+    return {
+        result: users[0],
+        count: users[1],
+    };
 };
 
 export const findByID = async (id: number): Promise<User | undefined> => {
@@ -47,8 +55,6 @@ export const create = async (dto: CreateUserDTO): Promise<User> => {
 };
 
 export const update = async (id: number, dto: UpdateUserDTO): Promise<User> => {
-    if (dto.password) dto.password = await bcrypt.hash(dto.password, 10);
-
     return getManager().transaction(async (manager: EntityManager) => {
         const userRepository: Repository<User> = manager.getRepository(User);
 
@@ -56,8 +62,7 @@ export const update = async (id: number, dto: UpdateUserDTO): Promise<User> => {
             id,
             firstname: dto.firstname,
             lastname: dto.lastname,
-            email: dto.email,
-            password: dto.password,
+            email: dto.email
         });
 
         const user = await userRepository.findOne(id);
