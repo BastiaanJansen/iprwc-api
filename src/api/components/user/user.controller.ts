@@ -29,7 +29,7 @@ export const update = async (id: number, dto: UpdateUserDTO): Promise<User> => {
     if (dto.email) {
         const userWithSameEmail = await userDAO.findByEmail(dto.email);
 
-        if (userWithSameEmail)
+        if (userWithSameEmail && id !== userWithSameEmail.id)
             throw new BadRequestException("User with email already exists");
     }
 
