@@ -1,21 +1,15 @@
 import { BadRequestException } from "../../../exceptions/BadRequestException";
 import { NotFoundException } from "../../../exceptions/NotFoundException";
+import { DBFindAllResponse } from "../../../utils/db-find-all-response";
 import { CreateUserDTO } from "./dto/create-user.dto";
 import { UpdateUserDTO } from "./dto/update-user.dto";
 import * as userDAO from "./user.dao";
 import { User } from "./user.model";
 
-export const findAll = async (): Promise<User[]> => {
+export const findAll = async (): Promise<DBFindAllResponse<User[]>> => {
     return await userDAO.findAll();
 };
 
-export const findByID = async (id: number): Promise<User> => {
-    const user = await userDAO.findByID(id);
-
-    if (!user) throw new NotFoundException("User does not exist");
-
-    return user;
-};
 export const create = async (dto: CreateUserDTO): Promise<User> => {
     const userWithSameEmail = await userDAO.findByEmail(dto.email);
 
@@ -24,6 +18,14 @@ export const create = async (dto: CreateUserDTO): Promise<User> => {
 
     return await userDAO.create(dto);
 };
+
+export const findByID = async (id: number): Promise<User> => {
+    const user = await userDAO.findByID(id);
+
+    if (!user) throw new NotFoundException("User does not exist");
+
+    return user;
+}
 
 export const update = async (id: number, dto: UpdateUserDTO): Promise<User> => {
     if (dto.email) {
