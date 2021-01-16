@@ -11,7 +11,7 @@ import "./utils/response-handler";
 const app: Application = express();
 const port: number = +(process.env.PORT || 5000);
 
-app.use(cors());
+// app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
