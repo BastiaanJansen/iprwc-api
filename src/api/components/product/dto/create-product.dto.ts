@@ -13,6 +13,7 @@ import {
     Length,
     ValidateNested,
 } from "class-validator";
+import { HasExtension } from "../../../../utils/decorators/has-extension.decorator";
 import { DTO } from "../../../../utils/DTO";
 import { NutriScore } from "../product.model";
 
@@ -56,6 +57,7 @@ export class CreateProductDTO extends DTO {
 
     @IsNotEmpty()
     @IsUrl()
+    @HasExtension(["png", "jpg", "jpeg"])
     image: string;
 
     @IsNotEmpty()

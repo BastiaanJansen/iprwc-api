@@ -9,6 +9,7 @@ import {
     IsString,
     IsUrl,
 } from "class-validator";
+import { HasExtension } from "../../../../utils/decorators/has-extension.decorator";
 import { DTO } from "../../../../utils/DTO";
 import { NutriScore } from "../product.model";
 
@@ -53,6 +54,7 @@ export class UpdateProductDTO extends DTO {
 
     @IsOptional()
     @IsUrl()
+    @HasExtension(["png", "jpg", "jpeg"])
     image?: string;
 
     @IsOptional()
