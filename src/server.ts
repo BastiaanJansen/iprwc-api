@@ -10,8 +10,19 @@ import "./utils/response-handler";
 
 const app: Application = express();
 const port: number = +(process.env.PORT || 5000);
+const whitelist = ["http://localhost:4200", "https://basjansen.dev"];
 
-app.use(cors());
+app.use(
+    cors({
+        origin: function (origin, callback) {
+            if (whitelist.indexOf(origin!) !== -1) {
+                callback(null, true);
+            } else {
+                callback(new Error("Not allowed by CORS"));
+            }
+        },
+    })
+);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
