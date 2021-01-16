@@ -60,7 +60,7 @@ export class Product {
     @Column()
     image: string;
 
-    @Column(ColumnType.DECIMAL, { precision: 13, scale: 0 })
+    @Column()
     barcode: string;
 
     @CreateDateColumn()
