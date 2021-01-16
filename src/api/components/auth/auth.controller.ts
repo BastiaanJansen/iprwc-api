@@ -22,7 +22,9 @@ export const login = async (loginDTO: LoginDTO): Promise<LoginInfo> => {
 
     const privateKey = process.env.JWT_SECRET;
     if (!privateKey) throw new Error("JWT secret must be defined");
-    const jwt = jsonwebtoken.sign({ user }, privateKey);
+    const jwt = jsonwebtoken.sign({ user }, privateKey, {
+        expiresIn: "2 days",
+    });
 
     return {
         user,
@@ -32,10 +34,10 @@ export const login = async (loginDTO: LoginDTO): Promise<LoginInfo> => {
 
 export const register = async (dto: RegisterDTO): Promise<User> => {
     const { firstname, lastname, email, password } = dto;
-    
+
     const user = await userDAO.findByEmail(email);
 
     if (user) throw new BadRequestException("Email is already used");
 
     return await userDAO.create(dto);
-}
+};
