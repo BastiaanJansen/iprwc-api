@@ -5,17 +5,24 @@ import errorHandler from "./utils/error-handler";
 import bodyParser from "body-parser";
 import routes from "./api/routes";
 import logger from "./utils/logger";
+import rateLimit from "express-rate-limit";
 import "./utils/database";
 import "./utils/response-handler";
 
 const app: Application = express();
 const port: number = +(process.env.PORT || 5000);
 
+const limiter = rateLimit({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max: 100, // limit each IP to 100 requests per windowMs
+});
+
 app.use(
     cors({
         origin: "https://basjansen.dev",
     })
 );
+app.use(limiter);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
