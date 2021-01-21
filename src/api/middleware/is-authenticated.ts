@@ -69,10 +69,7 @@ export async function authenticate(
 
         const user = await userDAO.findByID(userInToken.id);
 
-        if (!user)
-            throw new BadRequestException(
-                `Authentication failed. User with id ${userInToken.id} does not exist`
-            );
+        if (!user) throw new BadRequestException(`Authentication failed.`);
 
         // Add employee to request object
         req.user = user;
