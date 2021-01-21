@@ -67,6 +67,10 @@ export async function authenticate(
 
         const userInToken: User = decodedToken.user;
 
+        if (!userInToken) {
+            throw new BadRequestException("User is not valid");
+        }
+
         const user = await userDAO.findByID(userInToken.id);
 
         if (!user) throw new BadRequestException(`Authentication failed.`);
